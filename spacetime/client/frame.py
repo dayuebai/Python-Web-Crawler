@@ -15,6 +15,7 @@ from rtypes.dataframe.dataframe_changes.IDataframeChanges import DataframeChange
 from rtypes.dataframe.dataframe_client import dataframe_client as dataframe_cl
 from rtypes.pcc.utils.recursive_dictionary import RecursiveDictionary
 from .IFrame import IFrame
+from applications.search import crawler_frame
 
 
 class ClientFrame(IFrame):  # pylint: disable=R0902
@@ -366,6 +367,18 @@ class ClientFrame(IFrame):  # pylint: disable=R0902
                 self._shutdown()
                 self._push()
                 self._unregister_app()
+            except KeyboardInterrupt:
+                # Save analytics to a file
+                with open("crawler_analytics_by_dayueb.txt", "w") as file_object:
+                    file_object.write("Of all pages given to my crawler, the page URL with the most out links is: " + crawler_frame.max_page_url)
+                    file_object.write("\nIt has " + str(crawler_frame.max_num_out_links) + " out links on the page.\n")
+                    file_object.write("Visted subdomains & number of URLS processed from each of these subdomains:\n")
+                    for subdomain in crawler_frame.subdomain_counter:
+                        file_object.write(subdomain + ": " + str(crawler_frame.subdomain_counter[subdomain]) + "\n")
+                # After catching the exception and save analytics
+                # to a file, raise an exception with customized 
+                # error message
+                raise Exception("Shut down the crawler by using KeyboardInterrupt")
             except:
                 self.logger.exception("An unknown error occurred.")
                 raise
