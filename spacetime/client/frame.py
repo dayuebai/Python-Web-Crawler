@@ -370,8 +370,8 @@ class ClientFrame(IFrame):  # pylint: disable=R0902
             except KeyboardInterrupt:
                 # Save analytics to a file
                 with open("crawler_analytics_by_dayueb.txt", "w") as file_object:
-                    file_object.write("Of all pages given to my crawler, the page URL with the most out links is: " + crawler_frame.max_page_url)
-                    file_object.write("\nIt has " + str(crawler_frame.max_num_out_links) + " out links on the page.\n")
+                    file_object.write("Of all pages given to my crawler, the page URL with the most out valid links is: " + crawler_frame.max_page_url)
+                    file_object.write("\nIt has " + str(crawler_frame.max_num_out_links) + " out valid links on the page.\n")
                     file_object.write("Visted subdomains & number of URLS processed from each of these subdomains:\n")
                     for subdomain in crawler_frame.subdomain_counter:
                         file_object.write(subdomain + ": " + str(crawler_frame.subdomain_counter[subdomain]) + "\n")
